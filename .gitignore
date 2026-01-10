@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Blender
+*.blend
+*.blend1
+
+# Artifacts
+*.zip
+muestras/
+
+# OS
+.DS_Store
+Thumbs.db

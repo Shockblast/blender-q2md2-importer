@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "md2_import"
+version = "1.1.0"
+name = "Quake 2 MD2 Importer"
+tagline = "Import Quake 2 MD2 models with animations"
+maintainer = "Antigravity"
+type = "add-on"
+website = "https://example.com"
+tags = ["Import-Export"]
+license = ["GPL-2.0-or-later"]
+blender_version_min = "4.2.0"
+
+[permissions]
+files = "all"
