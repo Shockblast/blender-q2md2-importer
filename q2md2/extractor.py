@@ -150,7 +150,9 @@ def _get_material_info(obj):
         return None, "skin"
 
     mat = obj.data.materials[0]
-    if not mat or not mat.use_nodes:
+    if mat is None:
+        return None, "skin"
+    if not mat.use_nodes:
         return mat.name, "skin"
 
     for node in mat.node_tree.nodes:
