@@ -211,9 +211,10 @@ def extract(obj, context, options):
     verts, tris, uvs, normals, _ = _extract_mesh_data(anim_objs[0], context, convert_coords, scale)
 
     mat_name, skin_base = _get_material_info(obj)
+    tex_fmt = options.get("texture_format", "PNG")
     tex_name = options.get("texture_name", "") or obj.name
     tex_name = tex_name.rsplit('_', 1)[0] if '_' in tex_name else tex_name
-    skin_name = tex_name + ".png"
+    skin_name = tex_name + ".png" if tex_fmt == "PNG" else tex_name
 
     data = {
         "verts": verts,

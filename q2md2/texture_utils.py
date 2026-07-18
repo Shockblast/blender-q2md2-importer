@@ -22,7 +22,7 @@ def export_texture(data, dest_dir, options):
 
     resize = options.get("resize_pow2", True)
     max_size = options.get("max_texture_size", 256)
-    tex_name = options.get("texture_name", "") or data.get("skin_name", "skin")
+    tex_name = options.get("texture_name", "") or os.path.splitext(data.get("skin_name", "skin"))[0]
 
     img = _find_image(data)
     if img is None:
