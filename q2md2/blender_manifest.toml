@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "q2md2"
+version = "2.0.0"
+name = "Quake 2 MD2 Import/Export"
+tagline = "Import and export Quake 2 MD2 models with animations"
+maintainer = "Shockblast"
+type = "add-on"
+website = "https://github.com/Shockblast/blender-q2md2-importer"
+tags = ["Import-Export"]
+license = ["GPL-2.0-or-later"]
+blender_version_min = "4.2.0"
+
+[permissions]
+files = "all"
