@@ -55,6 +55,7 @@ class MD2File:
         self.tex_coords = []
         self.triangles = []
         self.frames = []
+        self.glcmds = []
 
     def read(self):
         with open(self.filepath, 'rb') as f:
@@ -86,6 +87,11 @@ class MD2File:
             f.seek(self.header.ofs_frames)
             for _ in range(self.header.num_frames):
                 self.frames.append(self._read_frame(f))
+
+            if self.header.num_glcmds > 0 and self.header.ofs_glcmds < self.header.ofs_end:
+                f.seek(self.header.ofs_glcmds)
+                raw = f.read(self.header.num_glcmds * 4)
+                self.glcmds = list(struct.unpack(f'<{self.header.num_glcmds}i', raw))
 
     def _read_frame(self, f) -> MD2Frame:
         scale = struct.unpack('<3f', f.read(12))

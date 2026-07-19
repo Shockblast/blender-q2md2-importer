@@ -16,6 +16,19 @@ def _pack_frame_name(name):
     data = name.encode('ascii', errors='replace')[:15]
     return data.ljust(16, b'\x00')
 
+def _build_glcmds(tris, uvs):
+    glcmds = []
+    for tri in tris:
+        glcmds.append(3)
+        for j in range(3):
+            u, v = uvs[tri[3 + j]]
+            glcmds.append(struct.unpack('<i', struct.pack('<f', u))[0])
+            glcmds.append(struct.unpack('<i', struct.pack('<f', 1.0 - v))[0])
+            glcmds.append(tri[j])
+    glcmds.append(0)
+    return glcmds
+
+
 def write_md2(filepath, data):
     verts = data["verts"]
     tris = data["tris"]
@@ -30,7 +43,8 @@ def write_md2(filepath, data):
     num_st = len(uvs)
     num_skins = 1
     num_frames = len(frames)
-    num_glcmds = 0
+    glcmds = _build_glcmds(tris, uvs) if not data.get("skip_glcmds", False) else [0]
+    num_glcmds = len(glcmds)
     frame_size = 40 + num_xyz * 4
 
     ofs_skins = 68
@@ -38,7 +52,7 @@ def write_md2(filepath, data):
     ofs_tris = ofs_st + num_st * 4
     ofs_frames = ofs_tris + num_tris * 12
     ofs_glcmds = ofs_frames + num_frames * frame_size
-    ofs_end = ofs_glcmds
+    ofs_end = ofs_glcmds + num_glcmds * 4
 
     with open(filepath, 'wb') as f:
         f.write(struct.pack('<17i',
@@ -88,3 +102,6 @@ def write_md2(filepath, data):
                 ni = best_normal(fnormals[vi]) if fnormals else 0
                 f.write(struct.pack('BBB', cx, cy, cz))
                 f.write(struct.pack('B', ni))
+
+        for cmd in glcmds:
+            f.write(struct.pack('<i', cmd))

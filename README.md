@@ -21,6 +21,7 @@ Compatible with Blender 4.2+ (Extensions system) and Blender 5.0+.
 - **Texture Resize**: Optional power-of-2 resize (8x8 to 1024x1024).
 - **Coordinate Conversion**: Optional Blender (Y-forward) to Quake (X-forward).
 - **Scale**: Adjustable (1.0 = raw, 0.0254 for import from Quake inches to meters, 39.37 for export meters to inches).
+- **GL Commands**: Generated as `GL_TRIANGLE_STRIP` sequences (required by GL renderers). Can be disabled with `skip_glcmds=True` in code.
 
 ## Installation
 
@@ -66,7 +67,7 @@ To work in meters: import at scale 0.0254, edit, export at scale 39.37.
 - MD2 uses uint16 vertex indices (max 65535 verts) and texcoord indices (max ~21845 tris with per-corner UVs). Warnings are shown at export.
 - PCX textures are not supported. Convert to PNG before importing.
 - Only the first material with a ShaderNodeTexImage is exported (MD2 supports one skin).
-- GL commands are omitted (`num_glcmds = 0`) — compatible with all engines.
+- GL commands are now generated — required by Quake 2 GL renderers. The software renderer ignores them (uses the triangle data directly). Pass `skip_glcmds=True` in the data dict to disable.
 
 ## License
 
